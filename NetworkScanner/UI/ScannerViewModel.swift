@@ -62,7 +62,6 @@ class LANScannerViewModel: NSObject,ObservableObject, LANScanDelegate {
 
     func lanScanDidFinishScanning() {
         DispatchQueue.main.async {
-            // Present alert here if needed
         }
     }
 }

@@ -19,6 +19,7 @@ struct ContentView: View {
                     .ignoresSafeArea()
 
                 VStack {
+                    Text("Scanning network may take time...")
                     List(viewModel.connectedDevices, id: \.self) { device in
                         DeviceRow(device: device)
                     }

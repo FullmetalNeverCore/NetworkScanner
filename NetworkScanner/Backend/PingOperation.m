@@ -62,11 +62,11 @@ static const float PING_TIMEOUT = TIMEOUT;
     
     NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
     
-    // Run loops don't run if they don't have input sources or timers on them.  So we add a timer that we never intend to fire.
+
     _keepAliveTimer = [NSTimer timerWithTimeInterval:1000000.0 target:self selector:@selector(timeout:) userInfo:nil repeats:NO];
     [runLoop addTimer:_keepAliveTimer forMode:NSDefaultRunLoopMode];
     
-    //Ping method
+
     [self ping];
     
     NSTimeInterval updateInterval = 0.1f;
@@ -82,7 +82,7 @@ static const float PING_TIMEOUT = TIMEOUT;
 }
 - (void)finishedPing {
     
-    //Calling the completion block
+
     dispatch_async(dispatch_get_main_queue(), ^{
         if (self.result) {
             self.result(errorMessage, self.name);
@@ -94,18 +94,18 @@ static const float PING_TIMEOUT = TIMEOUT;
 
 - (void)timeout:(NSTimer*)timer
 {
-    //This method should never get called. (just in case)
+
     errorMessage = [NSError errorWithDomain:@"Ping Timeout" code:10 userInfo:nil];
     [self finishedPing];
 }
 
 -(void)finish {
 
-    //Removes timer from the NSRunLoop
+
     [_keepAliveTimer invalidate];
     _keepAliveTimer = nil;
     
-    //Kill the while loop in the start method
+
     _stopRunLoop = YES;
     
     [self willChangeValueForKey:@"isExecuting"];
@@ -128,7 +128,7 @@ static const float PING_TIMEOUT = TIMEOUT;
 }
 #pragma mark - Pinger delegate
 
-// When the pinger starts, send the ping immediately
+
 - (void)simplePing:(SimplePing *)pinger didStartWithAddress:(NSData *)address {
     
     if (self.isCancelled) {
@@ -160,12 +160,12 @@ static const float PING_TIMEOUT = TIMEOUT;
 }
 
 - (void)simplePing:(SimplePing *)pinger didSendPacket:(NSData *)packet {
-    //This timer will fired pingTimeOut in case the SimplePing don't answer in the specific time
+
     pingTimer = [NSTimer scheduledTimerWithTimeInterval:PING_TIMEOUT target:self selector:@selector(pingTimeOut:) userInfo:nil repeats:NO];
 }
 
 - (void)pingTimeOut:(NSTimer *)timer {
-    // Move to next host
+    
     errorMessage = [NSError errorWithDomain:@"Ping timeout" code:11 userInfo:nil];
     [self finishedPing];
 }

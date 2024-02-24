@@ -118,10 +118,10 @@
     
     deb(@"start scan for router: %@", [self getRouterIP]);
 
-    //Initializing the dictionary that holds the Brands name for each MAC Address
+
     self.brandDictionary = [[NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"data" ofType:@"plist"]] mutableCopy];
     
-    //Initializing the dictionary that holds the Brands downloaded from the internet
+
     NSMutableDictionary *vendors = [self downloadedVendorsDictionary];
     if(![self isEmpty:vendors]){
         [self.brandDictionary addEntriesFromDictionary: vendors];
@@ -159,7 +159,7 @@
     NSString *deviceIPAddress = [[[[NSString stringWithFormat:@"%@%ld", self.baseAddress, (long)self.currentHostAddress] stringByReplacingOccurrencesOfString:@".0" withString:@"."] stringByReplacingOccurrencesOfString:@".00" withString:@"."] stringByReplacingOccurrencesOfString:@".." withString:@".0."];
     
     if(deviceIPAddress != nil) {
-        //ping to check if device is active
+      
         PingOperation *pingOperation = [[PingOperation alloc]initWithIPToPing:deviceIPAddress andCompletionHandler:^(NSError  * _Nullable error, NSString  * _Nonnull ip) {
             
             if(error == nil) {
@@ -408,28 +408,28 @@
     NSString *wifiAddress = nil;
     NSString *cellAddress = nil;
     
-    // retrieve the current interfaces - returns 0 on success
+
     if(!getifaddrs(&interfaces)) {
-        // Loop through linked list of interfaces
+ 
         temp_addr = interfaces;
         while(temp_addr != NULL) {
             sa_family_t sa_type = temp_addr->ifa_addr->sa_family;
             if(sa_type == AF_INET || sa_type == AF_INET6) {
                 NSString *name = [NSString stringWithUTF8String:temp_addr->ifa_name];
-                NSString *addr = [NSString stringWithUTF8String:inet_ntoa(((struct sockaddr_in *)temp_addr->ifa_addr)->sin_addr)]; // pdp_ip0
+                NSString *addr = [NSString stringWithUTF8String:inet_ntoa(((struct sockaddr_in *)temp_addr->ifa_addr)->sin_addr)];
                 
                 if([name isEqualToString: DEFAULT_WIFI_INTERFACE]) {
-                    // Interface is the wifi connection on the iPhone
+               
                     wifiAddress = addr;
                 } else
                     if([name isEqualToString: DEFAULT_CELLULAR_INTERFACE]) {
-                        // Interface is the cell connection on the iPhone
+        
                         cellAddress = addr;
                     }
             }
             temp_addr = temp_addr->ifa_next;
         }
-        // Free memory
+   
         freeifaddrs(interfaces);
     }
     NSString *addr = wifiAddress ? wifiAddress : cellAddress;
@@ -442,14 +442,14 @@
     struct ifaddrs *temp_addr = NULL;
     int success = 0;
     
-    // retrieve the current interfaces - returns 0 on success
+  
     success = getifaddrs(&interfaces);
     
     if (success == 0) {
         temp_addr = interfaces;
         
         while(temp_addr != NULL) {
-            // check if interface is en0 which is the wifi connection on the iPhone
+    
             if(temp_addr->ifa_addr->sa_family == AF_INET) {
                 if([[NSString stringWithUTF8String:temp_addr->ifa_name] isEqualToString: DEFAULT_WIFI_INTERFACE]) {
                     address = [NSString stringWithUTF8String:inet_ntoa(((struct sockaddr_in *)temp_addr->ifa_addr)->sin_addr)];
