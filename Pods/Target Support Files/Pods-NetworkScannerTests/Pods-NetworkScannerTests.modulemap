@@ -1,0 +1,6 @@
+framework module Pods_NetworkScannerTests {
+  umbrella header "Pods-NetworkScannerTests-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -19,7 +19,18 @@ struct ContentView: View {
                     .ignoresSafeArea()
 
                 VStack {
-                    Text("Scanning network may take time...")
+                    Text("\(viewModel.progress)")
+                    ProgressView(value: viewModel.progress)
+                        .progressViewStyle(PBStyle())
+                        .frame(width: 200, height: 20)
+                    if viewModel.progress == 1.0{
+                        Text("Network scan complete!")
+                    }
+                    else{
+                        Text("Network scanning progress...")
+                    }
+                    
+                    
                     List(viewModel.connectedDevices, id: \.self) { device in
                         DeviceRow(device: device)
                     }

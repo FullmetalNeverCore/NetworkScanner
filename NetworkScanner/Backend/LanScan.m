@@ -191,8 +191,10 @@
                 }
                 
                 NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                      //deviceMac
                                       deviceHostName != nil ? deviceHostName : @"", DEVICE_NAME,
                                       deviceIPAddress != nil ? deviceIPAddress : @"", DEVICE_IP_ADDRESS,
+                                      //deviceMac != nil ? deviceMac : @"", MAC_ADDRESS,
                                       nil];
                 
                 [self.delegate lanScanDidFindNewDevice: dict];

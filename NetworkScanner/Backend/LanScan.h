@@ -13,6 +13,7 @@
 
 #define DEVICE_NAME @"DEVICE_NAME"
 #define DEVICE_IP_ADDRESS @"DEVICE_IP_ADDRESS"
+#define MAC_ADDRESS @"MAC_ADDRESS"
 
 @optional
 - (void)lanScanDidFinishScanning;

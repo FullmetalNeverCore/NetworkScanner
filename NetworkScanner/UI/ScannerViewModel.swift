@@ -51,6 +51,7 @@ class LANScannerViewModel: NSObject,ObservableObject, LANScanDelegate {
     func lanScanHasUpdatedProgress(_ counter: Int, address: String!) {
         DispatchQueue.main.async {
             self.progress = Float(counter) / Float(MAX_IP_RANGE)
+            print(self.progress)
         }
     }
 
